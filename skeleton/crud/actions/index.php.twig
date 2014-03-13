@@ -1,0 +1,39 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Lists all {{ entity }} entities the APYDataGrid Way
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/", name="{{ route_name_prefix }}")
+     * @Method("GET")
+     * @Template()
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function indexAction()
+{% endblock method_definition %}
+    {
+{% block method_body %}
+
+        $source = new Entity('{{ bundle }}:{{ entity }}');
+
+        $grid = $this->get('grid');
+        $grid->setId('grid_{{ entity }}');
+        $grid->setSource($source);
+         
+        $rowAction = new RowAction('apydatagrid.edit', '{{ route_name_prefix }}_edit');
+        $rowAction->setRouteParametersMapping(array('id' => 'id'));
+        $grid->addRowAction($rowAction);
+
+        $rowAction = new RowAction('apydatagrid.delete', '{{ route_name_prefix }}_delete');
+        $rowAction->setRouteParametersMapping(array('id' => 'id'));
+        $grid->addRowAction($rowAction);
+{% endblock method_body %}
+
+{% block method_return %}
+        return $grid->getGridResponse('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:index.html.twig');
+{% endblock method_return %}
+    }

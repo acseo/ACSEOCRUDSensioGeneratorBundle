@@ -1,0 +1,20 @@
+{% block extends %}
+{{ "{% extends '::base.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block body -%}" }}
+    <h1>
+    	{{ entity }} list
+	{% if 'new' in actions %}
+    	<a class="btn btn-primary pull-right" href="{{ "{{ path('" ~ route_name_prefix ~ "_new') }}" }}">{{ "{{ 'Ajouter' | trans }}" }}</a>
+    {% endif %}    
+    </h1>
+
+    {{ "{{ grid_search(grid) }}" }}
+
+    
+   
+    {{ "{{ grid(grid) }}" }}
+{{ "{% endblock %}" }}
+{% endblock body %}
